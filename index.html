@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>French Vocabulary Quiz</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<main class="app">
+
+
+    <!-- =========================================
+         LEVEL SCREEN
+    ========================================== -->
+
+    <section id="levelScreen">
+
+        <div class="homeHeader">
+
+            <div class="appIcon">BONJOUR</div>
+
+            <h1>French Vocabulary</h1>
+
+            <p class="subtitle">
+                Build your French vocabulary, one word at a time.
+            </p>
+
+        </div>
+
+
+        <h2 class="chooseTitle">
+            Choose Your Level
+        </h2>
+
+
+        <div class="levels">
+
+            <button onclick="startLevel('A1')">
+                <strong>A1</strong>
+                <span>Beginner</span>
+            </button>
+
+
+            <button onclick="startLevel('A2')">
+                <strong>A2</strong>
+                <span>Elementary</span>
+            </button>
+
+
+            <button onclick="startLevel('B1')">
+                <strong>B1</strong>
+                <span>Intermediate</span>
+            </button>
+
+
+            <button onclick="startLevel('B2')">
+                <strong>B2</strong>
+                <span>Upper Intermediate</span>
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================
+         CATEGORY SCREEN
+    ========================================== -->
+
+    <section id="categoryScreen" style="display: none;">
+
+        <h1>📚 Choose a Category</h1>
+
+
+        <p class="subtitle">
+            Choose what you want to practice.
+        </p>
+
+
+        <div class="levels">
+
+
+            <button onclick="startCategory('Greetings')">
+
+                <strong>👋</strong>
+
+                <span>Greetings</span>
+
+            </button>
+
+
+
+            <button onclick="startCategory('Daily Life')">
+
+                <strong>🏠</strong>
+
+                <span>Daily Life</span>
+
+            </button>
+
+
+
+            <button onclick="startCategory('People & Family')">
+
+                <strong>👨‍👩‍👧</strong>
+
+                <span>People & Family</span>
+
+            </button>
+
+
+
+            <button onclick="startCategory('Verbs')">
+
+                <strong>🔤</strong>
+
+                <span>Basic Verbs</span>
+
+            </button>
+
+
+
+            <button onclick="startCategory('Mixed')">
+
+                <strong>🎯</strong>
+
+                <span>Mixed Practice</span>
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================
+         QUIZ SCREEN
+    ========================================== -->
+
+    <section id="gameScreen" style="display: none;">
+
+
+        <h1>
+            🇫🇷 French Vocabulary
+        </h1>
+
+
+        <p id="levelDisplay"></p>
+
+
+
+        <div class="progress">
+
+
+            <span>
+
+                Question
+
+                <span id="questionNumber">
+                    1
+                </span>
+
+                / 10
+
+            </span>
+
+
+
+            <div class="progressBar">
+
+                <div id="progressFill"></div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="score">
+
+            Score:
+
+            <span id="score">
+                0
+            </span>
+
+        </div>
+
+
+
+        <div class="card">
+
+
+            <p class="questionText">
+                What does this word mean?
+            </p>
+
+
+            <h2 id="word">
+                Bonjour
+            </h2>
+
+
+            <div id="options">
+
+            </div>
+
+
+            <p id="feedback">
+
+            </p>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================================
+         RESULT SCREEN
+    ========================================== -->
+
+    <section id="resultScreen" style="display: none;">
+
+
+        <h1>
+            🎉 Quiz Complete!
+        </h1>
+
+
+
+        <div class="resultCard">
+
+
+            <p class="resultTitle">
+                Your final score
+            </p>
+
+
+
+            <p class="finalScore">
+
+                <span id="finalScore">
+                    0
+                </span>
+
+                / 10
+
+            </p>
+
+
+
+            <p id="resultMessage">
+
+            </p>
+
+
+
+            <button onclick="startLevel(currentLevel)">
+
+                Try This Level Again
+
+            </button>
+
+
+
+            <button onclick="restartQuiz()">
+
+                Choose Another Level
+
+            </button>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================== -->
+
+<script>/* =========================================
+   MAIN VOCABULARY DATABASE
+========================================= */
+
+const vocabulary = {
+
+
+    A1: [
+
+        {
+            word: "Bonjour",
+            meaning: "Hello"
+        },
+
+        {
+            word: "Merci",
+            meaning: "Thank you"
+        },
+
+        {
+            word: "Au revoir",
+            meaning: "Goodbye"
+        },
+
+        {
+            word: "S'il vous plaît",
+            meaning: "Please"
+        },
+
+        {
+            word: "Excusez-moi",
+            meaning: "Excuse me"
+        },
+
+        {
+            word: "Oui",
+            meaning: "Yes"
+        },
+
+        {
+            word: "Non",
+            meaning: "No"
+        },
+
+        {
+            word: "Maison",
+            meaning: "House"
+        },
+
+        {
+            word: "Chat",
+            meaning: "Cat"
+        },
+
+        {
+            word: "Chien",
+            meaning: "Dog"
+        },
+
+        {
+            word: "Eau",
+            meaning: "Water"
+        },
+
+        {
+            word: "Livre",
+            meaning: "Book"
+        },
+
+        {
+            word: "École",
+            meaning: "School"
+        },
+
+        {
+            word: "Famille",
+            meaning: "Family"
+        },
+
+        {
+            word: "Ami",
+            meaning: "Friend"
+        },
+
+        {
+            word: "Pain",
+            meaning: "Bread"
+        },
+
+        {
+            word: "Manger",
+            meaning: "To eat"
+        },
+
+        {
+            word: "Boire",
+            meaning: "To drink"
+        },
+
+        {
+            word: "Dormir",
+            meaning: "To sleep"
+        },
+
+        {
+            word: "Parler",
+            meaning: "To speak"
+        }
+
+    ],
+
+
+
+    A2: [
+
+        {
+            word: "Voyage",
+            meaning: "Trip"
+        },
+
+        {
+            word: "Acheter",
+            meaning: "To buy"
+        },
+
+        {
+            word: "Demander",
+            meaning: "To ask"
+        },
+
+        {
+            word: "Travail",
+            meaning: "Work"
+        },
+
+        {
+            word: "Répondre",
+            meaning: "To answer"
+        },
+
+        {
+            word: "Choisir",
+            meaning: "To choose"
+        },
+
+        {
+            word: "Commencer",
+            meaning: "To start"
+        },
+
+        {
+            word: "Comprendre",
+            meaning: "To understand"
+        },
+
+        {
+            word: "Attendre",
+            meaning: "To wait"
+        },
+
+        {
+            word: "Chercher",
+            meaning: "To search"
+        },
+
+        {
+            word: "Apprendre",
+            meaning: "To learn"
+        },
+
+        {
+            word: "Oublier",
+            meaning: "To forget"
+        },
+
+        {
+            word: "Visiter",
+            meaning: "To visit"
+        },
+
+        {
+            word: "Préparer",
+            meaning: "To prepare"
+        },
+
+        {
+            word: "Rencontrer",
+            meaning: "To meet"
+        },
+
+        {
+            word: "Finir",
+            meaning: "To finish"
+        },
+
+        {
+            word: "Inviter",
+            meaning: "To invite"
+        },
+
+        {
+            word: "Voyager",
+            meaning: "To travel"
+        },
+
+        {
+            word: "Habiter",
+            meaning: "To live"
+        },
+
+        {
+            word: "Cuisiner",
+            meaning: "To cook"
+        }
+
+    ],
+
+
+
+    B1: [
+
+        {
+            word: "Réussir",
+            meaning: "To succeed"
+        },
+
+        {
+            word: "Découvrir",
+            meaning: "To discover"
+        },
+
+        {
+            word: "Améliorer",
+            meaning: "To improve"
+        },
+
+        {
+            word: "Pourtant",
+            meaning: "However"
+        },
+
+        {
+            word: "Environnement",
+            meaning: "Environment"
+        },
+
+        {
+            word: "Développer",
+            meaning: "To develop"
+        },
+
+        {
+            word: "Permettre",
+            meaning: "To allow"
+        },
+
+        {
+            word: "Protéger",
+            meaning: "To protect"
+        },
+
+        {
+            word: "Décision",
+            meaning: "Decision"
+        },
+
+        {
+            word: "Expérience",
+            meaning: "Experience"
+        },
+
+        {
+            word: "Réduire",
+            meaning: "To reduce"
+        },
+
+        {
+            word: "Augmenter",
+            meaning: "To increase"
+        },
+
+        {
+            word: "Proposer",
+            meaning: "To suggest"
+        },
+
+        {
+            word: "Expliquer",
+            meaning: "To explain"
+        },
+
+        {
+            word: "Participer",
+            meaning: "To participate"
+        },
+
+        {
+            word: "Éviter",
+            meaning: "To avoid"
+        },
+
+        {
+            word: "Changer",
+            meaning: "To change"
+        },
+
+        {
+            word: "Confiance",
+            meaning: "Confidence"
+        },
+
+        {
+            word: "Construire",
+            meaning: "To build"
+        },
+
+        {
+            word: "Partager",
+            meaning: "To share"
+        }
+
+    ],
+
+
+
+    B2: [
+
+        {
+            word: "Néanmoins",
+            meaning: "Nevertheless"
+        },
+
+        {
+            word: "Approfondir",
+            meaning: "To deepen"
+        },
+
+        {
+            word: "Fiable",
+            meaning: "Reliable"
+        },
+
+        {
+            word: "Démarche",
+            meaning: "Approach / Process"
+        },
+
+        {
+            word: "Enjeu",
+            meaning: "Issue / Stake"
+        },
+
+        {
+            word: "Pertinent",
+            meaning: "Relevant"
+        },
+
+        {
+            word: "Toutefois",
+            meaning: "However"
+        },
+
+        {
+            word: "Accomplir",
+            meaning: "To accomplish"
+        },
+
+        {
+            word: "Envisager",
+            meaning: "To consider"
+        },
+
+        {
+            word: "Approprié",
+            meaning: "Appropriate"
+        },
+
+        {
+            word: "Établir",
+            meaning: "To establish"
+        },
+
+        {
+            word: "Souligner",
+            meaning: "To emphasize"
+        },
+
+        {
+            word: "Considérable",
+            meaning: "Considerable"
+        },
+
+        {
+            word: "Indispensable",
+            meaning: "Essential"
+        },
+
+        {
+            word: "Précisément",
+            meaning: "Precisely"
+        },
+
+        {
+            word: "Négliger",
+            meaning: "To neglect"
+        },
+
+        {
+            word: "Renforcer",
+            meaning: "To strengthen"
+        },
+
+        {
+            word: "Susceptible",
+            meaning: "Likely"
+        },
+
+        {
+            word: "Contribuer",
+            meaning: "To contribute"
+        },
+
+        {
+            word: "Évaluer",
+            meaning: "To evaluate"
+        }
+
+    ]
+
+};
+
+
+
+/* =========================================
+   CATEGORY VOCABULARY
+========================================= */
+
+const categoryVocabulary = {
+
+
+    A1: {
+
+
+        Greetings: [
+
+            {
+                word: "Bonjour",
+                meaning: "Hello"
+            },
+
+            {
+                word: "Merci",
+                meaning: "Thank you"
+            },
+
+            {
+                word: "Au revoir",
+                meaning: "Goodbye"
+            },
+
+            {
+                word: "S'il vous plaît",
+                meaning: "Please"
+            },
+
+            {
+                word: "Excusez-moi",
+                meaning: "Excuse me"
+            },
+
+            {
+                word: "Oui",
+                meaning: "Yes"
+            },
+
+            {
+                word: "Non",
+                meaning: "No"
+            },
+
+            {
+                word: "Ami",
+                meaning: "Friend"
+            },
+
+            {
+                word: "Famille",
+                meaning: "Family"
+            },
+
+            {
+                word: "Parler",
+                meaning: "To speak"
+            }
+
+        ],
+
+
+        "Daily Life": [
+
+            {
+                word: "Maison",
+                meaning: "House"
+            },
+
+            {
+                word: "Chat",
+                meaning: "Cat"
+            },
+
+            {
+                word: "Chien",
+                meaning: "Dog"
+            },
+
+            {
+                word: "Eau",
+                meaning: "Water"
+            },
+
+            {
+                word: "Livre",
+                meaning: "Book"
+            },
+
+            {
+                word: "École",
+                meaning: "School"
+            },
+
+            {
+                word: "Pain",
+                meaning: "Bread"
+            },
+
+            {
+                word: "Manger",
+                meaning: "To eat"
+            },
+
+            {
+                word: "Boire",
+                meaning: "To drink"
+            },
+
+            {
+                word: "Dormir",
+                meaning: "To sleep"
+            }
+
+        ],
+
+
+        "People & Family": [
+
+            {
+                word: "Famille",
+                meaning: "Family"
+            },
+
+            {
+                word: "Ami",
+                meaning: "Friend"
+            },
+
+            {
+                word: "Maison",
+                meaning: "House"
+            },
+
+            {
+                word: "École",
+                meaning: "School"
+            },
+
+            {
+                word: "Livre",
+                meaning: "Book"
+            },
+
+            {
+                word: "Chat",
+                meaning: "Cat"
+            },
+
+            {
+                word: "Chien",
+                meaning: "Dog"
+            },
+
+            {
+                word: "Eau",
+                meaning: "Water"
+            },
+
+            {
+                word: "Pain",
+                meaning: "Bread"
+            },
+
+            {
+                word: "Dormir",
+                meaning: "To sleep"
+            }
+
+        ],
+
+
+        Verbs: [
+
+            {
+                word: "Manger",
+                meaning: "To eat"
+            },
+
+            {
+                word: "Boire",
+                meaning: "To drink"
+            },
+
+            {
+                word: "Dormir",
+                meaning: "To sleep"
+            },
+
+            {
+                word: "Parler",
+                meaning: "To speak"
+            },
+
+            {
+                word: "Maison",
+                meaning: "House"
+            },
+
+            {
+                word: "École",
+                meaning: "School"
+            },
+
+            {
+                word: "Acheter",
+                meaning: "To buy"
+            },
+
+            {
+                word: "Demander",
+                meaning: "To ask"
+            },
+
+            {
+                word: "Répondre",
+                meaning: "To answer"
+            },
+
+            {
+                word: "Choisir",
+                meaning: "To choose"
+            }
+
+        ]
+
+    },
+
+
+
+    A2: {
+
+
+        Greetings: [
+
+            {
+                word: "Demander",
+                meaning: "To ask"
+            },
+
+            {
+                word: "Répondre",
+                meaning: "To answer"
+            },
+
+            {
+                word: "Inviter",
+                meaning: "To invite"
+            },
+
+            {
+                word: "Rencontrer",
+                meaning: "To meet"
+            },
+
+            {
+                word: "Attendre",
+                meaning: "To wait"
+            },
+
+            {
+                word: "Comprendre",
+                meaning: "To understand"
+            },
+
+            {
+                word: "Choisir",
+                meaning: "To choose"
+            },
+
+            {
+                word: "Commencer",
+                meaning: "To start"
+            },
+
+            {
+                word: "Apprendre",
+                meaning: "To learn"
+            },
+
+            {
+                word: "Oublier",
+                meaning: "To forget"
+            }
+
+        ],
+
+
+        "Daily Life": [
+
+            {
+                word: "Travail",
+                meaning: "Work"
+            },
+
+            {
+                word: "Habiter",
+                meaning: "To live"
+            },
+
+            {
+                word: "Cuisiner",
+                meaning: "To cook"
+            },
+
+            {
+                word: "Préparer",
+                meaning: "To prepare"
+            },
+
+            {
+                word: "Finir",
+                meaning: "To finish"
+            },
+
+            {
+                word: "Acheter",
+                meaning: "To buy"
+            },
+
+            {
+                word: "Chercher",
+                meaning: "To search"
+            },
+
+            {
+                word: "Attendre",
+                meaning: "To wait"
+            },
+
+            {
+                word: "Visiter",
+                meaning: "To visit"
+            },
+
+            {
+                word: "Voyager",
+                meaning: "To travel"
+            }
+
+        ],
+
+
+        "People & Family": [
+
+            {
+                word: "Rencontrer",
+                meaning: "To meet"
+            },
+
+            {
+                word: "Inviter",
+                meaning: "To invite"
+            },
+
+            {
+                word: "Demander",
+                meaning: "To ask"
+            },
+
+            {
+                word: "Répondre",
+                meaning: "To answer"
+            },
+
+            {
+                word: "Habiter",
+                meaning: "To live"
+            },
+
+            {
+                word: "Travail",
+                meaning: "Work"
+            },
+
+            {
+                word: "Voyage",
+                meaning: "Trip"
+            },
+
+            {
+                word: "Visiter",
+                meaning: "To visit"
+            },
+
+            {
+                word: "Préparer",
+                meaning: "To prepare"
+            },
+
+            {
+                word: "Cuisiner",
+                meaning: "To cook"
+            }
+
+        ],
+
+
+        Verbs: [
+
+            {
+                word: "Acheter",
+                meaning: "To buy"
+            },
+
+            {
+                word: "Demander",
+                meaning: "To ask"
+            },
+
+            {
+                word: "Répondre",
+                meaning: "To answer"
+            },
+
+            {
+                word: "Choisir",
+                meaning: "To choose"
+            },
+
+            {
+                word: "Commencer",
+                meaning: "To start"
+            },
+
+            {
+                word: "Comprendre",
+                meaning: "To understand"
+            },
+
+            {
+                word: "Attendre",
+                meaning: "To wait"
+            },
+
+            {
+                word: "Chercher",
+                meaning: "To search"
+            },
+
+            {
+                word: "Apprendre",
+                meaning: "To learn"
+            },
+
+            {
+                word: "Oublier",
+                meaning: "To forget"
+            }
+
+        ]
+
+    },
+
+B2: {
+
+        Greetings: [
+
+            {
+                word: "Néanmoins",
+                meaning: "Nevertheless"
+            },
+
+            {
+                word: "Toutefois",
+                meaning: "However"
+            },
+
+            {
+                word: "Pertinent",
+                meaning: "Relevant"
+            },
+
+            {
+                word: "Approprié",
+                meaning: "Appropriate"
+            },
+
+            {
+                word: "Fiable",
+                meaning: "Reliable"
+            },
+
+            {
+                word: "Précisément",
+                meaning: "Precisely"
+            },
+
+            {
+                word: "Considérable",
+                meaning: "Considerable"
+            },
+
+            {
+                word: "Indispensable",
+                meaning: "Essential"
+            },
+
+            {
+                word: "Susceptible",
+                meaning: "Likely"
+            },
+
+            {
+                word: "Enjeu",
+                meaning: "Issue / Stake"
+            }
+
+        ],
+
+
+        "Daily Life": [
+
+            {
+                word: "Démarche",
+                meaning: "Approach / Process"
+            },
+
+            {
+                word: "Envisager",
+                meaning: "To consider"
+            },
+
+            {
+                word: "Établir",
+                meaning: "To establish"
+            },
+
+            {
+                word: "Évaluer",
+                meaning: "To evaluate"
+            },
+
+            {
+                word: "Négliger",
+                meaning: "To neglect"
+            },
+
+            {
+                word: "Renforcer",
+                meaning: "To strengthen"
+            },
+
+            {
+                word: "Contribuer",
+                meaning: "To contribute"
+            },
+
+            {
+                word: "Accomplir",
+                meaning: "To accomplish"
+            },
+
+            {
+                word: "Approfondir",
+                meaning: "To deepen"
+            },
+
+            {
+                word: "Souligner",
+                meaning: "To emphasize"
+            }
+
+        ],
+
+
+        "People & Family": [
+
+            {
+                word: "Contribuer",
+                meaning: "To contribute"
+            },
+
+            {
+                word: "Accomplir",
+                meaning: "To accomplish"
+            },
+
+            {
+                word: "Envisager",
+                meaning: "To consider"
+            },
+
+            {
+                word: "Établir",
+                meaning: "To establish"
+            },
+
+            {
+                word: "Renforcer",
+                meaning: "To strengthen"
+            },
+
+            {
+                word: "Approfondir",
+                meaning: "To deepen"
+            },
+
+            {
+                word: "Fiable",
+                meaning: "Reliable"
+            },
+
+            {
+                word: "Pertinent",
+                meaning: "Relevant"
+            },
+
+            {
+                word: "Approprié",
+                meaning: "Appropriate"
+            },
+
+            {
+                word: "Indispensable",
+                meaning: "Essential"
+            }
+
+        ],
+
+
+        Verbs: [
+
+            {
+                word: "Approfondir",
+                meaning: "To deepen"
+            },
+
+            {
+                word: "Accomplir",
+                meaning: "To accomplish"
+            },
+
+            {
+                word: "Envisager",
+                meaning: "To consider"
+            },
+
+            {
+                word: "Établir",
+                meaning: "To establish"
+            },
+
+            {
+                word: "Négliger",
+                meaning: "To neglect"
+            },
+
+            {
+                word: "Renforcer",
+                meaning: "To strengthen"
+            },
+
+            {
+                word: "Contribuer",
+                meaning: "To contribute"
+            },
+
+            {
+                word: "Évaluer",
+                meaning: "To evaluate"
+            },
+
+            {
+                word: "Souligner",
+                meaning: "To emphasize"
+            },
+
+            {
+                word: "Approprié",
+                meaning: "Appropriate"
+            }
+
+        ]
+
+    },
+
+    B1: {
+
+
+        Greetings: [
+
+            {
+                word: "Proposer",
+                meaning: "To suggest"
+            },
+
+            {
+                word: "Expliquer",
+                meaning: "To explain"
+            },
+
+            {
+                word: "Participer",
+                meaning: "To participate"
+            },
+
+            {
+                word: "Éviter",
+                meaning: "To avoid"
+            },
+
+            {
+                word: "Changer",
+                meaning: "To change"
+            },
+
+            {
+                word: "Confiance",
+                meaning: "Confidence"
+            },
+
+            {
+                word: "Construire",
+                meaning: "To build"
+            },
+
+            {
+                word: "Partager",
+                meaning: "To share"
+            }
+        ]
+    }
+         /* =========================================
+       END OF CATEGORY VOCABULARY
+    ========================================== */
+
+};
+
+
+/* =========================================
+   GAME VARIABLES
+========================================== */
+
+let currentLevel = "";
+let currentCategory = "";
+let currentQuestion = 0;
+let score = 0;
+let currentCorrectAnswer = "";
+let quizWords = [];
+
+
+/* =========================================
+   START LEVEL
+========================================== */
+
+function startLevel(level) {
+
+    currentLevel = level;
+    currentCategory = "";
+
+    currentQuestion = 0;
+    score = 0;
+
+    document.getElementById("levelScreen").style.display = "none";
+    document.getElementById("categoryScreen").style.display = "block";
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("resultScreen").style.display = "none";
+
+}
+
+
+/* =========================================
+   START CATEGORY
+========================================== */
+
+function startCategory(category) {
+
+    currentCategory = category;
+
+    currentQuestion = 0;
+    score = 0;
+
+    /*
+       If Mixed is selected,
+       use all vocabulary from the selected level.
+    */
+
+    if (category === "Mixed") {
+
+        quizWords = [...vocabulary[currentLevel]];
+
+    } else {
+
+        quizWords = [...categoryVocabulary[currentLevel][category]];
+
+    }
+
+
+    /*
+       Shuffle the words so the questions
+       appear in a random order.
+    */
+
+    quizWords.sort(() => Math.random() - 0.5);
+
+
+    /*
+       Show quiz screen.
+    */
+
+    document.getElementById("levelScreen").style.display = "none";
+
+    document.getElementById("categoryScreen").style.display = "none";
+
+    document.getElementById("gameScreen").style.display = "block";
+
+    document.getElementById("resultScreen").style.display = "none";
+
+
+    /*
+       Display current level and category.
+    */
+
+    document.getElementById("levelDisplay").textContent =
+        "Level: " + currentLevel + " • " + category;
+
+
+    document.getElementById("score").textContent = score;
+
+
+    /*
+       Start first question.
+    */
+
+    showQuestion();
+
+}
+
+
+/* =========================================
+   SHOW QUESTION
+========================================== */
+
+function showQuestion() {
+
+    /*
+       Make sure we don't go outside
+       the vocabulary array.
+    */
+
+    if (currentQuestion >= quizWords.length) {
+
+        showResults();
+
+        return;
+
+    }
+
+
+    /*
+       Select current word.
+    */
+
+    let selectedWord = quizWords[currentQuestion];
+
+
+    currentCorrectAnswer = selectedWord.meaning;
+
+
+    /*
+       Display French word.
+    */
+
+    document.getElementById("word").textContent =
+        selectedWord.word;
+
+
+    /*
+       Display question number.
+    */
+
+    document.getElementById("questionNumber").textContent =
+        currentQuestion + 1;
+
+
+    /*
+       Clear previous feedback.
+    */
+
+    document.getElementById("feedback").textContent = "";
+
+
+    /*
+       Update progress bar.
+    */
+
+    let progress =
+        ((currentQuestion + 1) / 10) * 100;
+
+
+    document.getElementById("progressFill").style.width =
+        progress + "%";
+
+
+    /*
+       Create four answer choices.
+    */
+
+    createOptions(
+        selectedWord,
+        currentCategory === "Mixed"
+            ? vocabulary[currentLevel]
+            : categoryVocabulary[currentLevel][currentCategory]
+    );
+
+}
+
+
+/* =========================================
+   CREATE ANSWER OPTIONS
+========================================== */
+
+function createOptions(selectedWord, words) {
+
+    let answers = [];
+
+
+    /*
+       Always include the correct answer.
+    */
+
+    answers.push(selectedWord.meaning);
+
+
+    /*
+       Add three different incorrect answers.
+    */
+
+    while (answers.length < 4) {
+
+        const randomIndex =
+            Math.floor(Math.random() * words.length);
+
+
+        const randomAnswer =
+            words[randomIndex].meaning;
+
+
+        if (!answers.includes(randomAnswer)) {
+
+            answers.push(randomAnswer);
+
+        }
+
+    }
+
+
+    /*
+       Randomize answer order.
+    */
+
+    answers.sort(() => Math.random() - 0.5);
+
+
+    /*
+       Find options container.
+    */
+
+    const options =
+        document.getElementById("options");
+
+
+    /*
+       Clear old options.
+    */
+
+    options.innerHTML = "";
+
+
+    /*
+       Create buttons.
+    */
+
+    answers.forEach(function(answer) {
+
+        const button =
+            document.createElement("button");
+
+
+        button.textContent = answer;
+
+
+        button.className = "option";
+
+
+        button.onclick = function() {
+
+            checkAnswer(answer, button);
+
+        };
+
+
+        options.appendChild(button);
+
+    });
+
+}
+
+
+/* =========================================
+   CHECK ANSWER
+========================================== */
+
+function checkAnswer(answer, button) {
+
+    /*
+       Find all option buttons.
+    */
+
+    const buttons =
+        document.querySelectorAll(".option");
+
+
+    /*
+       Disable every button so the user
+       cannot answer twice.
+    */
+
+    buttons.forEach(function(btn) {
+
+        btn.disabled = true;
+
+    });
+
+
+    /*
+       Correct answer.
+    */
+
+    if (answer === currentCorrectAnswer) {
+
+        button.classList.add("correct");
+
+
+        score = score + 1;
+
+
+        document.getElementById("score").textContent =
+            score;
+
+
+        document.getElementById("feedback").textContent =
+            "✅ Correct!";
+
+    }
+
+
+    /*
+       Wrong answer.
+    */
+
+    else {
+
+        button.classList.add("wrong");
+
+
+        document.getElementById("feedback").textContent =
+            "❌ Incorrect!";
+
+
+        /*
+           Highlight the correct answer.
+        */
+
+        buttons.forEach(function(btn) {
+
+            if (btn.textContent === currentCorrectAnswer) {
+
+                btn.classList.add("correct");
+
+            }
+
+        });
+
+    }
+
+
+    /*
+       Wait one second before
+       showing the next question.
+    */
+
+    setTimeout(function() {
+
+        currentQuestion = currentQuestion + 1;
+
+
+        /*
+           We want exactly 10 questions.
+        */
+
+        if (currentQuestion >= 10) {
+
+            showResults();
+
+        }
+
+        else {
+
+            showQuestion();
+
+        }
+
+    }, 1000);
+
+}
+
+
+/* =========================================
+   SHOW RESULTS
+========================================== */
+
+function showResults() {
+
+    /*
+       Hide quiz.
+    */
+
+    document.getElementById("gameScreen").style.display =
+        "none";
+
+
+    /*
+       Show result screen.
+    */
+
+    document.getElementById("resultScreen").style.display =
+        "block";
+
+
+    /*
+       Display final score.
+    */
+
+    document.getElementById("finalScore").textContent =
+        score;
+
+
+    /*
+       Performance message.
+    */
+
+    let message = "";
+
+
+    if (score >= 9) {
+
+        message =
+            "🌟 Excellent! Your French vocabulary is getting strong!";
+
+    }
+
+    else if (score >= 7) {
+
+        message =
+            "🎉 Great job! Keep practicing and you'll improve even more!";
+
+    }
+
+    else if (score >= 5) {
+
+        message =
+            "👍 Good effort! A little more practice will help.";
+
+    }
+
+    else {
+
+        message =
+            "📚 Keep practicing! You'll get better with every quiz.";
+
+    }
+
+
+    document.getElementById("resultMessage").textContent =
+        message;
+
+}
+
+
+/* =========================================
+   RESTART / CHOOSE LEVEL
+========================================== */
+
+function restartQuiz() {
+
+    /*
+       Hide all other screens.
+    */
+
+    document.getElementById("resultScreen").style.display =
+        "none";
+
+    document.getElementById("gameScreen").style.display =
+        "none";
+
+    document.getElementById("categoryScreen").style.display =
+        "none";
+
+
+    /*
+       Return to level selection.
+    */
+
+    document.getElementById("levelScreen").style.display =
+        "block";
+
+}
+  </script>,
+
+</body>,
+
+</html>
