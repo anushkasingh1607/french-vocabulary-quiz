@@ -6,6 +6,10 @@ An interactive French vocabulary learning website built with HTML, CSS, and Java
 
 [Play the French Vocabulary Quiz](https://anushkasingh1607.github.io/french-vocabulary-quiz/)
 
+
+## 🖥️ Preview
+
+![French Vocabulary Quiz](Screenshot%202026-09-07%20212643.png)
 ## 📚 Features
 
 - Four French learning levels: A1, A2, B1, and B2
